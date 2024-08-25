@@ -3,7 +3,7 @@ import customtkinter as Tk
 from pytube import YouTube
 
 
-
+# function to start download
 def startDownload():
   try:
     ytLink = link.get()
@@ -14,19 +14,10 @@ def startDownload():
     vido.download()
 
   except:
-    finish_label.configure(text='Download Error⛔',text_color="red")
-  finish_label.configure(text="Dowloaded✅",text_color='white')
+    finish_label.configure(text='Download Error',text_color="red")
+  finish_label.configure(text="Dowloaded",text_color='blue')
 
 
-def on_progress(stream,chunk,bytes_remaining):
-    total_size = stream.filesize
-    bytes_downloaded = total_size - bytes_remaining
-    percentage_of_completion = bytes_downloaded / total_size * 100
-    per=str(int(percentage_of_completion))
-    progress_percentage.configure(text=per + '%')
-    progress_percentage.update()
-
-    progress_bar.set(float(percentage_of_completion/100))
 
 
 # app theme/config
@@ -36,40 +27,46 @@ Tk.set_default_color_theme('blue')
 
 
 
-
-
 # app dimensions/title config
 app = Tk.CTk()
-app.geometry('720x480')
-app.iconbitmap('Top-Secret-Projects/Youtube-Downloader/youzen_icon.ico')
+app.geometry('400x300')
 app.title('Youzen')
+app.iconbitmap('youzen/resources/youzen_icon.ico')
 
 
-title = Tk.CTkLabel(app, text='insert a youtube link ☺️',font=('Helvetica',20))
-title.pack(padx=10, pady=10)
+
+
+# window frame config
+frame = Tk.CTkFrame(app)
+frame.pack(pady=20,padx=20)
+
 
 url_var = tkinter.StringVar()
-link = Tk.CTkEntry(app, width=350, height=40, textvariable=url_var)
+
+# link entry label
+link = Tk.CTkEntry(frame,
+                  width=300, height=30,
+                  textvariable=url_var,
+                  placeholder_text='Enter Link Here>>')
 link.pack()
 
-
-
-finish_label = Tk.CTkLabel(app, text='')
+# finish label
+finish_label = Tk.CTkLabel(frame, 
+                          text='')
 finish_label.pack()
 
-download = Tk.CTkButton(app, text='download',command=startDownload,font=('Helvetica',14))
+
+
+# download button
+download = Tk.CTkButton(frame,
+                       text='download',
+                       command=startDownload,
+                       font=('Helvetica',14),
+                        width=60,height=40,
+                        fg_color='#c1121f',
+                        hover_color='#780000')
 download.pack(pady=10,padx=10)
 
-progress_percentage = Tk.CTkLabel(app,text='0%')
-progress_percentage.pack()
 
-progress_bar = Tk.CTkProgressBar(app, width=400)
-progress_bar.set(0)
-progress_bar.pack(padx=10, pady=10)
-
-
-
-
-startDownload()
-
+# loop to show window
 app.mainloop()
